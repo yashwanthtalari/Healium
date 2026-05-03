@@ -49,8 +49,8 @@ def create_analyzer_agent():
 def create_liaison_agent():
     return Agent(
         role='Copilot Liaison Reporter',
-        goal='Compile all findings and errors into a clean, highly structured Markdown report designed to be fed into GitHub Copilot or ChatGPT to generate fixes.',
-        backstory='You are a technical writer and developer advocate. You know exactly what context AI Copilots need to fix bugs effectively. You produce structured, actionable reports.',
+        goal='Compile all findings and errors into a clean, highly structured Markdown report. You must perform a quantitative summary, counting total errors, classifying them by severity (Critical, Major, Minor), and calculating a Project Health Score (0-100).',
+        backstory='You are a technical writer and senior project manager. You excel at turning technical bug reports into actionable project summaries. You categorize errors by severity, estimate technical debt in hours, and provide a definitive Health Score based on code quality and bug density. You produce structured reports that include a specialized JSON metadata section for automated processing.',
         verbose=True,
         allow_delegation=False,
         llm=get_llm(),

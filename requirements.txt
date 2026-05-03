@@ -7,3 +7,5 @@ fastapi
 uvicorn
 websockets
 langchain-groq
+fpdf2
+matplotlib

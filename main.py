@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from crewai import Crew, Process
 from agents import create_architect_agent, create_analyzer_agent, create_liaison_agent
 from tasks import create_architecture_analysis_task, create_code_analysis_task, create_report_generation_task
+from report_gen import create_pdf_report
 
 # Load environment variables
 load_dotenv()
@@ -32,9 +33,12 @@ def run_healium_test(repo_path: str, developer_prompt: str):
         sys.exit(1)
 
     # 2. Create Tasks
+    md_report_path = os.path.join(repo_path, 'copilot_report.md')
+    pdf_report_path = os.path.join(repo_path, 'healium_analysis_report.pdf')
+    
     arch_task = create_architecture_analysis_task(architect, repo_path, developer_prompt)
     analysis_task = create_code_analysis_task(analyzer, "Use the output of the architecture task.")
-    report_task = create_report_generation_task(liaison)
+    report_task = create_report_generation_task(liaison, output_file=md_report_path)
 
     # 3. Form the Crew
     healium_crew = Crew(
@@ -52,7 +56,15 @@ def run_healium_test(repo_path: str, developer_prompt: str):
     
     print("\n==============================================")
     print("Healium Testing Complete!")
-    print("The final report has been saved to 'copilot_report.md'.")
+    print(f"The final report has been saved to: {md_report_path}")
+    
+    # Generate PDF report
+    try:
+        create_pdf_report(str(result), output_filename=pdf_report_path)
+        print(f"A professional PDF summary has been generated: {pdf_report_path}")
+    except Exception as e:
+        print(f"Warning: Failed to generate PDF report: {e}")
+        
     print("==============================================\n")
     
     # Broadcast completion to GUI
