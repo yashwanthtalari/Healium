@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healium | Agentic Testing System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <h1>Healium</h1>
+            </div>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span id="status-text">Disconnected</span>
+            </div>
+        </header>
+
+        <section class="input-section">
+            <div class="input-group">
+                <label for="repo_path">Repository Path</label>
+                <input type="text" id="repo_path" placeholder="C:\Users\...\MyProject" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="prompt">Developer Intent</label>
+                <textarea id="prompt" placeholder="Describe what the project should do..." rows="2"></textarea>
+            </div>
+            <button id="start-btn" class="primary-btn">
+                <span class="btn-text">Initiate Analysis</span>
+                <span class="btn-loader"></span>
+            </button>
+        </section>
+
+        <section class="console-section">
+            <div class="console-header">
+                <h3>Live Activity</h3>
+                <div class="console-actions">
+                    <button id="clear-btn" class="icon-btn" title="Clear Console">🗑️</button>
+                    <button id="scroll-btn" class="icon-btn active" title="Toggle Auto-scroll">📜</button>
+                </div>
+            </div>
+            <div class="console-wrapper" id="console-wrapper">
+                <div id="console" class="console-content">
+                    <div class="console-entry system">Welcome to Healium. Configure your project above and click 'Initiate Analysis'.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

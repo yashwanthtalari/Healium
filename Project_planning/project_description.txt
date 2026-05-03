@@ -1,0 +1,16 @@
+This is a project to build an agentic system which test the projects built by me 
+
+
+ok here is the system working state. 
+the system will be a self sustained system which works in a way :
+The system will work in such a way that when a user completes this project he will be giving the repo of the project and the AI and the Agentic system will be testing the each individual module on how it works which developer will be stating what the product needs to do which user will be provided to the system.
+So it will be basically a Prompt kind of system and not a big prompt it will be a shorter prompt and with that agent must be knowing what the project is and how the system must be working.
+So the system will be a set of agents broken together testing this and individual model of the project and they must be collaborative and they must get insights from each other Add to check whether if the project is working directly or not as the agent wants it to.
+Which each agent will be focusing on one particular thing of the project.
+The Agents must also focus on tiny little details its developer is giving.
+
+Cooperative agentic system is the method which we are choosing.
+
+This system will help developers test their products in real time and the agents will be getting to know what the errors which the printer project is making.
+The agents must be conveying these errors to GitHub copilot or ChatGPT or Gemini or Claude or Poe or any other AI Copilot. 
+Where they will be also helping them fix the errors.
