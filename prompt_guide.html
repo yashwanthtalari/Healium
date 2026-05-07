@@ -42,6 +42,7 @@
             margin-bottom: 10px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -150,7 +151,7 @@
 
     <section>
         <h2>1. Introduction to Healium</h2>
-        <p>Healium is an advanced agentic framework designed to analyze codebases, identify issues, automate refactoring, and generate dual-format (Markdown and PDF) technical reports. To leverage its full potential, it requires precise, context-rich prompting.</p>
+        <p>Healium is an advanced agentic framework designed to analyze codebases, identify issues, automate refactoring, and generate dual-format (Markdown and PDF) technical reports. It operates as a <strong>single-prompt system</strong>, meaning that each project should be driven by one comprehensive master prompt that contains all necessary context, commands, and artifact specifications.</p>
     </section>
 
     <section>
@@ -208,16 +209,17 @@
     </section>
 
     <section>
-        <h2>5. The "Perfect" Master Prompt</h2>
-        <p>When starting a complex, multi-step session with Healium, use a master prompt like this:</p>
-        <div class="card">
-            <div class="prompt-example">
-                "Healium, I need you to perform a full audit of the project repository. <br><br>
-                Step 1: Scan all Python files for performance bottlenecks.<br>
-                Step 2: Generate quantitative metadata estimating the time to fix each bottleneck.<br>
-                Step 3: Trigger 'report_gen.py' to create a dual-format (MD and PDF) summary, including a bar chart of the estimated fix times.<br><br>
-                Begin with Step 1 and ask for my confirmation before proceeding to Step 2."
-            </div>
+        <h2>5. Master Prompt (Single Prompt Requirement)</h2>
+<p>Each Healium project must be driven by a single master prompt that includes all context, commands, and output specifications. Use the template below.</p>
+<div class="card">
+    <div class="prompt-example">
+        "Healium, perform a full audit of the project repository. 
+        Step 1: Scan all files for performance bottlenecks. 
+        Step 2: Generate quantitative metadata estimating fix times. 
+        Step 3: Run report_gen.py to produce a Markdown summary and a PDF report with visualizations. 
+        Execute the steps sequentially without intermediate confirmations."
+    </div>
+</div>
         </div>
     </section>
 
