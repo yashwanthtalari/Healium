@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healium Agentic Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-dash {
+            animation: dash 20s linear infinite;
+        }
+        .animate-spin-slow {
+            animation: spin-slow 8s linear infinite;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+        .agent-node {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .connection-path {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+        .connection-path.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans p-4 md:p-8 min-h-screen overflow-x-hidden">
+
+    <!-- Header -->
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-900/20">
+                <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">Healium</h1>
+                <p class="text-slate-400 text-sm uppercase tracking-widest font-semibold">Collaborative Insight Pipeline</p>
+            </div>
+        </div>
+        
+        <div class="flex gap-4">
+            <div class="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-4 py-2 rounded-full">
+                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-xs font-mono uppercase">System: Aggregating</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-4 py-2 rounded-full">
+                <i data-lucide="zap" class="w-4 h-4 text-yellow-500"></i>
+                <span class="text-xs font-mono">QWEN-2.5:3B</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Column: Coordination Canvas -->
+        <div class="lg:col-span-2 relative bg-slate-900/30 rounded-3xl border border-slate-800 p-8 h-[600px] flex items-center justify-center overflow-hidden">
+            
+            <!-- Background Grid -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none" 
+                 style="background-image: radial-gradient(#475569 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+            <!-- SVG Connections -->
+            <svg id="connection-canvas" class="absolute inset-0 w-full h-full pointer-events-none">
+                <defs>
+                    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#3b82f6" />
+                        <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- Background Loop Guides -->
+                <path d="M 384 120 L 140 450" stroke="#1e293b" stroke-width="1" fill="none" stroke-dasharray="4,4"></path>
+                <path d="M 140 450 L 628 450" stroke="#1e293b" stroke-width="1" fill="none" stroke-dasharray="4,4"></path>
+                <path d="M 628 450 L 384 120" stroke="#1e293b" stroke-width="1" fill="none" stroke-dasharray="4,4"></path>
+                <path d="M 384 120 L 628 450" stroke="#1e293b" stroke-width="1" fill="none" stroke-dasharray="4,4"></path>
+
+                <!-- Active Paths -->
+                <path id="path-arch-anal" class="connection-path animate-dash" d="M 384 120 L 140 450" stroke="url(#lineGrad)" stroke-width="4" fill="none" stroke-dasharray="12,6"></path>
+                <path id="path-anal-liai" class="connection-path animate-dash" d="M 140 450 L 628 450" stroke="url(#lineGrad)" stroke-width="4" fill="none" stroke-dasharray="12,6"></path>
+                <path id="path-liai-arch" class="connection-path animate-dash" d="M 628 450 L 384 120" stroke="url(#lineGrad)" stroke-width="4" fill="none" stroke-dasharray="12,6"></path>
+                
+                <!-- Multi-source flows for Liaison thinking -->
+                <path id="multi-arch-liai" class="connection-path animate-dash opacity-50" d="M 384 120 L 628 450" stroke="#3b82f6" stroke-width="2" fill="none" stroke-dasharray="8,4"></path>
+                <path id="multi-anal-liai" class="connection-path animate-dash opacity-50" d="M 140 450 L 628 450" stroke="#a855f7" stroke-width="2" fill="none" stroke-dasharray="8,4"></path>
+            </svg>
+
+            <!-- Agent Nodes -->
+            <div class="relative w-full h-full">
+                <!-- Architect -->
+                <div id="node-architect" class="agent-node absolute top-0 left-1/2 -translate-x-1/2 group cursor-pointer" onmouseenter="showDetail('architect')" onmouseleave="hideDetail()">
+                    <div class="node-container relative w-24 h-24 md:w-32 md:h-32 bg-slate-900 border-4 border-slate-800 rounded-3xl flex flex-col items-center justify-center shadow-2xl">
+                        <i data-lucide="layout" class="icon w-8 h-8 text-slate-600"></i>
+                        <span class="mt-2 text-[9px] md:text-[10px] font-black text-slate-700 text-center px-2 tracking-tighter">ARCHITECT</span>
+                        <div class="status-badge absolute -top-3 -right-3 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-[8px] font-black flex items-center gap-1.5">
+                            <div class="dot w-1.5 h-1.5 rounded-full bg-slate-800"></div>
+                            <span class="label text-slate-700">WAITING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analyzer -->
+                <div id="node-analyzer" class="agent-node absolute bottom-12 left-12 group cursor-pointer" onmouseenter="showDetail('analyzer')" onmouseleave="hideDetail()">
+                    <div class="node-container relative w-24 h-24 md:w-32 md:h-32 bg-slate-900 border-4 border-slate-800 rounded-3xl flex flex-col items-center justify-center shadow-2xl">
+                        <i data-lucide="search" class="icon w-8 h-8 text-slate-600"></i>
+                        <span class="mt-2 text-[9px] md:text-[10px] font-black text-slate-700 text-center px-2 tracking-tighter">ANALYZER</span>
+                        <div class="status-badge absolute -top-3 -right-3 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-[8px] font-black flex items-center gap-1.5">
+                            <div class="dot w-1.5 h-1.5 rounded-full bg-slate-800"></div>
+                            <span class="label text-slate-700">WAITING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liaison -->
+                <div id="node-liaison" class="agent-node absolute bottom-12 right-12 group cursor-pointer" onmouseenter="showDetail('liaison')" onmouseleave="hideDetail()">
+                    <div class="node-container relative w-24 h-24 md:w-32 md:h-32 bg-slate-900 border-4 border-slate-800 rounded-3xl flex flex-col items-center justify-center shadow-2xl">
+                        <i data-lucide="message-square-share" class="icon w-8 h-8 text-slate-600"></i>
+                        <span class="mt-2 text-[9px] md:text-[10px] font-black text-slate-700 text-center px-2 tracking-tighter">LIAISON</span>
+                        <div class="status-badge absolute -top-3 -right-3 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-[8px] font-black flex items-center gap-1.5">
+                            <div class="dot w-1.5 h-1.5 rounded-full bg-slate-800"></div>
+                            <span class="label text-slate-700">WAITING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Hub -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                    <div class="relative">
+                        <div id="center-glow" class="absolute inset-0 rounded-full blur-2xl transition-all duration-1000 bg-blue-500/10"></div>
+                        <div class="relative bg-slate-900 border border-slate-700 p-6 rounded-full flex items-center justify-center">
+                            <i id="center-icon" data-lucide="database" class="w-8 h-8 text-slate-600"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="status-card" class="mt-12 bg-slate-900/90 backdrop-blur-md border border-slate-700 p-5 rounded-2xl max-w-[300px] shadow-2xl transition-all duration-500">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div id="status-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+                            <p id="status-phase" class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Initializing</p>
+                        </div>
+                        <p id="status-text" class="text-sm font-medium text-slate-100 leading-snug">System boot sequence complete. Starting multi-agent pipeline...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="flex flex-col gap-6">
+            <!-- Pipeline Summary -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
+                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase tracking-widest">Pipeline Sequence</h3>
+                <div id="pipeline-list" class="space-y-4">
+                    <!-- Progress bars injected via JS -->
+                </div>
+            </div>
+
+            <!-- Detail Viewer -->
+            <div id="detail-viewer" class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex-1 flex flex-col items-center justify-center text-center py-10">
+                <div class="p-4 bg-slate-800/30 rounded-full mb-4">
+                    <i data-lucide="cpu" class="w-8 h-8 opacity-20 text-slate-500"></i>
+                </div>
+                <p class="text-xs uppercase tracking-widest font-bold opacity-40">Agent Metadata Viewer</p>
+                <p class="text-[10px] mt-2 text-slate-600">Hover nodes to inspect internal logic</p>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 h-64 overflow-hidden flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Activity Log</h3>
+                    <i data-lucide="cpu" class="w-3 h-3 text-slate-600"></i>
+                </div>
+                <div id="log-container" class="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-1">
+                    <!-- Logs injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const agents = {
+            architect: {
+                id: 'architect',
+                name: 'Project Architect',
+                icon: 'layout',
+                color: 'bg-blue-500',
+                border: 'border-blue-400',
+                text: 'text-blue-100',
+                desc: 'Maps repository structure and identifies key architectural patterns.',
+                skills: ['Repo Traversal', 'Pattern Recognition', 'Dependency Mapping']
+            },
+            analyzer: {
+                id: 'analyzer',
+                name: 'Code Analyzer',
+                icon: 'search',
+                color: 'bg-purple-500',
+                border: 'border-purple-400',
+                text: 'text-purple-100',
+                desc: 'Deep dives into specific logic flows and identifies potential bugs.',
+                skills: ['Logic Auditing', 'Vulnerability Scans', 'Performance Analysis']
+            },
+            liaison: {
+                id: 'liaison',
+                name: 'Liaison Reporter',
+                icon: 'message-square-share',
+                color: 'bg-emerald-500',
+                border: 'border-emerald-400',
+                text: 'text-emerald-100',
+                desc: 'Synthesizes findings into actionable reports for AI Copilots.',
+                skills: ['Report Synthesis', 'Multi-Agent Aggregation', 'Copilot Prompting']
+            }
+        };
+
+        const flowSteps = [
+            { phase: 'architect', type: 'thinking', text: "Analyzing repository tree and identifying core modules..." },
+            { phase: 'architect', to: 'analyzer', type: 'transfer', text: "Structure mapped. Sending entry points to Code Analyzer." },
+            { phase: 'analyzer', type: 'thinking', text: "Scanning codebase for logic inconsistencies and edge cases..." },
+            { phase: 'analyzer', to: 'liaison', type: 'transfer', text: "Vulnerabilities found. Passing detailed stack traces to Liaison." },
+            { phase: 'liaison', type: 'thinking', text: "Synthesizing report: Aggregating architectural context and code analysis results...", multiSource: true },
+            { phase: 'liaison', to: 'architect', type: 'transfer', text: "Fix report generated. Syncing back to Architect for state update." }
+        ];
+
+        let activeStep = 0;
+        const insights = [];
+
+        function updateUI() {
+            const step = flowSteps[activeStep];
+            
+            // Reset all nodes
+            Object.keys(agents).forEach(key => {
+                const node = document.getElementById(`node-${key}`);
+                const container = node.querySelector('.node-container');
+                const icon = node.querySelector('.icon');
+                const label = node.querySelector('.label');
+                const dot = node.querySelector('.dot');
+                const badge = node.querySelector('.status-badge');
+
+                // Determine if this node is active, contributing, or waiting
+                const isActive = step.phase === key;
+                const isContributing = step.multiSource && key !== 'liaison';
+
+                if (isActive) {
+                    node.classList.remove('opacity-60', 'scale-100');
+                    node.classList.add('scale-105', '-translate-y-2');
+                    container.className = `node-container relative w-24 h-24 md:w-32 md:h-32 ${agents[key].color} border-4 ${agents[key].border} rounded-3xl flex flex-col items-center justify-center shadow-2xl transition-all duration-700`;
+                    icon.className = `icon w-8 h-8 ${agents[key].text} transition-all duration-500 ${step.type === 'thinking' ? 'scale-125' : ''}`;
+                    label.innerText = step.type === 'thinking' ? 'THINKING' : 'SENDING';
+                    label.className = 'label text-slate-300';
+                    dot.className = `dot w-1.5 h-1.5 rounded-full ${step.type === 'thinking' ? 'bg-amber-400 animate-pulse' : 'bg-blue-400'}`;
+                    badge.className = 'status-badge absolute -top-3 -right-3 px-2 py-1 bg-slate-950 border border-slate-700 rounded-lg text-[8px] font-black flex items-center gap-1.5';
+                } else if (isContributing) {
+                    node.classList.remove('opacity-60', 'scale-105');
+                    node.classList.add('opacity-80', 'scale-95');
+                    container.className = `node-container relative w-24 h-24 md:w-32 md:h-32 bg-slate-900 border-4 border-dashed border-blue-500/30 rounded-3xl flex flex-col items-center justify-center shadow-2xl transition-all duration-700`;
+                    icon.className = `icon w-8 h-8 text-blue-400`;
+                    label.innerText = 'SOURCE';
+                    label.className = 'label text-slate-400';
+                    dot.className = `dot w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse`;
+                } else {
+                    node.classList.add('opacity-60');
+                    node.classList.remove('scale-105', '-translate-y-2');
+                    container.className = `node-container relative w-24 h-24 md:w-32 md:h-32 bg-slate-900 border-4 border-slate-800 rounded-3xl flex flex-col items-center justify-center shadow-2xl transition-all duration-700`;
+                    icon.className = `icon w-8 h-8 text-slate-600`;
+                    label.innerText = 'WAITING';
+                    label.className = 'label text-slate-700';
+                    dot.className = `dot w-1.5 h-1.5 rounded-full bg-slate-800`;
+                    badge.className = 'status-badge absolute -top-3 -right-3 px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-[8px] font-black flex items-center gap-1.5';
+                }
+            });
+
+            // Update Paths
+            document.querySelectorAll('.connection-path').forEach(p => p.classList.remove('active'));
+            if (step.type === 'transfer') {
+                const pathId = `path-${step.phase.substring(0,4)}-${step.to.substring(0,4)}`;
+                document.getElementById(pathId).classList.add('active');
+            }
+            if (step.multiSource) {
+                document.getElementById('multi-arch-liai').classList.add('active');
+                document.getElementById('multi-anal-liai').classList.add('active');
+            }
+
+            // Update Center Status
+            const centerGlow = document.getElementById('center-glow');
+            const centerIcon = document.getElementById('center-icon');
+            centerGlow.className = `absolute inset-0 rounded-full blur-2xl transition-all duration-1000 ${step.phase === 'liaison' ? 'bg-emerald-500/20' : 'bg-blue-500/10'}`;
+            
+            if (step.multiSource) {
+                centerIcon.setAttribute('data-lucide', 'combine');
+                centerIcon.className = "w-8 h-8 text-emerald-400 animate-pulse";
+            } else {
+                centerIcon.setAttribute('data-lucide', 'database');
+                centerIcon.className = `w-8 h-8 ${step.type === 'thinking' ? 'text-blue-400 animate-spin-slow' : 'text-slate-600'}`;
+            }
+            lucide.createIcons();
+
+            document.getElementById('status-phase').innerText = step.multiSource ? 'Synthesizing (Multi-Agent Feed)' : (step.type === 'thinking' ? 'Processing Phase' : 'Data Handoff');
+            document.getElementById('status-text').innerText = step.text;
+            document.getElementById('status-dot').className = `w-2 h-2 rounded-full ${step.phase === 'liaison' ? 'bg-emerald-400' : 'bg-amber-500'} animate-pulse`;
+
+            // Update Sidebar Sequence
+            renderSequence();
+
+            // Add to Activity Log
+            addLog(step);
+        }
+
+        function renderSequence() {
+            const container = document.getElementById('pipeline-list');
+            container.innerHTML = Object.values(agents).map(agent => {
+                const step = flowSteps[activeStep];
+                const isActive = step.phase === agent.id;
+                const isMulti = step.multiSource && agent.id !== 'liaison';
+                return `
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500 ${isActive ? agent.color : (isMulti ? agent.color + ' opacity-40' : 'bg-slate-800 opacity-20')}">
+                            <i data-lucide="${agent.icon}" class="w-4 h-4"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold ${isActive ? 'text-white' : 'text-slate-600'}">${agent.name}</span>
+                                ${isActive ? '<i data-lucide="activity" class="w-3 h-3 text-emerald-400 animate-pulse"></i>' : ''}
+                                ${isMulti ? '<span class="text-[8px] text-blue-400 font-mono">STREAMING</span>' : ''}
+                            </div>
+                            <div class="w-full bg-slate-800 h-1 mt-1 rounded-full overflow-hidden">
+                                <div class="h-full transition-all duration-1000 ${isActive ? agent.color + ' w-full' : (isMulti ? agent.color + ' w-1/3' : 'w-0')}"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function addLog(step) {
+            const container = document.getElementById('log-container');
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const logHtml = `
+                <div class="p-3 bg-slate-800/20 rounded-xl border border-slate-800/50 animate-in slide-in-from-right-4 transition-all duration-500">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 rounded-full ${agents[step.phase].color}"></div>
+                            <span class="text-[10px] font-mono text-slate-500 uppercase">${step.phase}</span>
+                        </div>
+                        <span class="text-[9px] font-mono text-slate-600">${timestamp}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-tight">
+                        ${step.multiSource ? '<span class="text-blue-400 font-bold">[MULTI] </span>' : ''}
+                        ${step.text}
+                    </p>
+                </div>
+            `;
+            container.insertAdjacentHTML('afterbegin', logHtml);
+            // Limit logs
+            if (container.children.length > 10) container.lastElementChild.remove();
+        }
+
+        function showDetail(agentId) {
+            const agent = agents[agentId];
+            const viewer = document.getElementById('detail-viewer');
+            viewer.innerHTML = `
+                <div class="animate-in fade-in slide-in-from-bottom-2 duration-300 w-full">
+                    <div class="w-12 h-12 ${agent.color} rounded-xl flex items-center justify-center mb-4 mx-auto">
+                        <i data-lucide="${agent.icon}" class="w-6 h-6 ${agent.text}"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">${agent.name}</h3>
+                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">${agent.desc}</p>
+                    <div class="space-y-2 text-left">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider text-center">Capabilities</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            ${agent.skills.map(s => `<span class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-[10px] font-mono">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function hideDetail() {
+            // We can keep the last hovered or reset to default
+        }
+
+        // Initialize Loop
+        window.onload = () => {
+            lucide.createIcons();
+            updateUI();
+            setInterval(() => {
+                activeStep = (activeStep + 1) % flowSteps.length;
+                updateUI();
+            }, 3500);
+        };
+    </script>
+</body>
+</html>

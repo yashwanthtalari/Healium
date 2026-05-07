@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healium Prompting Guide</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-top: 30px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .prompt-example {
+            background-color: #000000;
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            overflow-x: auto;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .badge-analysis { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .badge-action { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .badge-report { background-color: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            h1 {
+                background: none;
+                color: #2563eb;
+                -webkit-text-fill-color: initial;
+            }
+            .card {
+                background-color: #f8fafc;
+                border: 1px solid #cbd5e1;
+                box-shadow: none;
+            }
+            .prompt-example {
+                background-color: #f1f5f9;
+                color: #0f172a;
+                border-left-color: #059669;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Mastering Healium</h1>
+        <p>The Ultimate Guide to Crafting Effective Prompts for the Healium Agentic System</p>
+    </header>
+
+    <section>
+        <h2>1. Introduction to Healium</h2>
+        <p>Healium is an advanced agentic framework designed to analyze codebases, identify issues, automate refactoring, and generate dual-format (Markdown and PDF) technical reports. To leverage its full potential, it requires precise, context-rich prompting.</p>
+    </section>
+
+    <section>
+        <h2>2. Core Principles of Prompting</h2>
+        <div class="card">
+            <h3>The C.C.A. Framework</h3>
+            <ul>
+                <li><span class="highlight">Context:</span> Tell Healium exactly what environment it is operating in. (e.g., "In the Vite/React frontend...")</li>
+                <li><span class="highlight">Command:</span> State the exact action required using strong verbs. (e.g., "Analyze", "Refactor", "Generate")</li>
+                <li><span class="highlight">Artifact:</span> Specify the desired output format. (e.g., "...and produce a PDF error report with matplotlib charts.")</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Prompt Archetypes</h2>
+
+        <div class="card">
+            <h3>1. Deep Codebase Analysis <span class="badge badge-analysis">Analysis</span></h3>
+            <p>Use these prompts when you need Healium to audit code, find bugs, or calculate technical debt.</p>
+            <div class="prompt-example">
+                "Analyze the 'src/components' directory. Identify any React state management anti-patterns, calculate the estimated fix times for each issue, and compile the findings into a JSON metadata object."
+            </div>
+            <p><strong>Why it works:</strong> It specifies the target directory, the exact type of issue to look for, and the desired structured output.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Refactoring & Implementation <span class="badge badge-action">Action</span></h3>
+            <p>Use these when you want Healium to actively change the code.</p>
+            <div class="prompt-example">
+                "Refactor the API calls in 'main.py' to use the local Ollama Llama 3.1 model instead of the Groq API. Ensure fallback logic is in place if the local model is unresponsive."
+            </div>
+            <p><strong>Why it works:</strong> It mentions specific files, specifies the target technology (Ollama), and includes edge-case handling requirements.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Dual-Format Reporting <span class="badge badge-report">Reporting</span></h3>
+            <p>Use these to trigger Healium's custom reporting pipeline (report_gen.py).</p>
+            <div class="prompt-example">
+                "Generate a comprehensive system health report based on the latest codebase scan. Output a detailed Markdown summary and a professional PDF document. Include matplotlib visualizations showing the distribution of error categories."
+            </div>
+            <p><strong>Why it works:</strong> It explicitly requests both Markdown and PDF formats, and specifies the inclusion of data visualizations.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Anti-Patterns (What NOT to do)</h2>
+        <div class="card">
+            <ul>
+                <li><strong>Too Vague:</strong> <em>"Fix my code."</em> (Healium doesn't know where to look or what is broken).</li>
+                <li><strong>Overloaded:</strong> <em>"Rewrite the backend, change the database to Postgres, update the CSS, and deploy to AWS."</em> (Break this down into step-by-step tasks).</li>
+                <li><strong>Missing Output Specs:</strong> <em>"Find bugs in main.py."</em> (Better: "Find bugs in main.py and output the results as a Markdown table.")</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. The "Perfect" Master Prompt</h2>
+        <p>When starting a complex, multi-step session with Healium, use a master prompt like this:</p>
+        <div class="card">
+            <div class="prompt-example">
+                "Healium, I need you to perform a full audit of the project repository. <br><br>
+                Step 1: Scan all Python files for performance bottlenecks.<br>
+                Step 2: Generate quantitative metadata estimating the time to fix each bottleneck.<br>
+                Step 3: Trigger 'report_gen.py' to create a dual-format (MD and PDF) summary, including a bar chart of the estimated fix times.<br><br>
+                Begin with Step 1 and ask for my confirmation before proceeding to Step 2."
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
