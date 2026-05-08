@@ -30,7 +30,7 @@ Healium is an automated, multi-agent system designed to analyze software reposit
     ```bash
     pip install -r requirements.txt
 
-##Visit the reports folder to check the sample reports. And better understand what is happening in Healium. 
+## Visit the reports folder to check the sample reports. And better understand what is happening in Healium. 
 ## Don't forget to use the prompt_guide for better understanding of how to use the Healium.
 ## Don't forget to Star the repo if you liked it.
     ```
