@@ -1,0 +1,11 @@
+crewai==0.28.8
+langchain-google-genai
+langchain-openai
+langchain-community
+python-dotenv
+fastapi
+uvicorn
+websockets
+langchain-groq
+fpdf2
+matplotlib
