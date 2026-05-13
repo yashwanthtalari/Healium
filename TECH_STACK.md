@@ -1,10 +1,10 @@
-# 🚀 Healium: Tech Stack & Technology Report
+#  Healium: Tech Stack & Technology Report
 
 Healium is a sophisticated, multi-agent software testing and analysis system. This report outlines the various layers and technologies that power the platform.
 
 ---
 
-## 🏗️ Core Backend & Logic
+##  Core Backend & Logic
 The heart of Healium is built on a Python-based multi-agent architecture.
 
 *   **Language:** Python 3.10+
@@ -14,7 +14,7 @@ The heart of Healium is built on a Python-based multi-agent architecture.
 
 ---
 
-## 🧠 Intelligence Layer (LLM Support)
+##  Intelligence Layer (LLM Support)
 Healium is designed to be model-agnostic, supporting both local and cloud-based intelligence.
 
 ### **Local Models**
@@ -27,7 +27,7 @@ Healium is designed to be model-agnostic, supporting both local and cloud-based 
 
 ---
 
-## 🌐 API & Networking
+##  API & Networking
 The bridge between the backend logic and the user interface.
 
 *   **Web Framework:** [FastAPI](https://fastapi.tiangolo.com/) - A modern, high-performance web framework for building APIs.
@@ -36,7 +36,7 @@ The bridge between the backend logic and the user interface.
 
 ---
 
-## 🎨 Frontend (Graphical User Interface)
+##  Frontend (Graphical User Interface)
 A premium, responsive "Glassmorphic" web interface for managing tests.
 
 *   **Structure:** Semantic HTML5.
@@ -49,7 +49,7 @@ A premium, responsive "Glassmorphic" web interface for managing tests.
 
 ---
 
-## 📊 Reporting & Utilities
+##  Reporting & Utilities
 Tools used for generating the final analysis output.
 
 *   **PDF Generation:** `fpdf2` - Used to compile analysis results into professional, downloadable reports.
@@ -58,7 +58,7 @@ Tools used for generating the final analysis output.
 
 ---
 
-## 📂 Project Structure Overview
+##  Project Structure Overview
 *   `main.py`: Dual-mode entry point (CLI/GUI).
 *   `agents.py`: Logic for specialized agents (Architect, Analyzer, Liaison).
 *   `api.py`: Backend server logic and WebSocket endpoints.
