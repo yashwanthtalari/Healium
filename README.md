@@ -1,8 +1,8 @@
-# 🚀 Healium: Cooperative Agentic Testing System
+#  Healium: Cooperative Agentic Testing System
 
 Healium is an automated, multi-agent system designed to analyze software repositories, identify logic errors, and generate actionable reports for AI Copilots (like GitHub Copilot or ChatGPT) to fix.
 
-## 🌟 Features
+##  Features
 
 -   **Multi-Agent Architecture:** Uses specialized agents (Architect, Analyzer, Liaison) to provide deep code insights.
 -   **Local & Cloud LLM Support:** 
@@ -11,7 +11,7 @@ Healium is an automated, multi-agent system designed to analyze software reposit
 -   **GUI & CLI Modes:** Run tests via a sleek web interface or directly from your terminal.
 -   **Copilot-Ready Reports:** Generates structured Markdown reports designed for seamless bug fixing.
 
-## 🛠️ Installation
+##  Installation
 
 1.  **Clone the Repository:**
     ```bash
@@ -35,7 +35,7 @@ Healium is an automated, multi-agent system designed to analyze software reposit
 ## Don't forget to Star the repo if you liked it.
     ```
 
-## ⚙️ Configuration
+##  Configuration
 
 Create a `.env` file in the root directory by copying `.env.example`:
 ```bash
@@ -57,7 +57,7 @@ OPENAI_API_KEY="your_openai_key"
 GOOGLE_API_KEY="your_google_key"
 ```
 
-## 🚀 Usage
+##  Usage
 
 ### Command Line Interface (CLI)
 Run the main script and follow the prompts:
@@ -72,7 +72,7 @@ python main.py --gui
 ```
 Then open your browser at `http://localhost:8000`.
 
-## 📁 Project Structure
+##  Project Structure
 
 -   `main.py`: Entry point for both CLI and GUI modes.
 -   `agents.py`: Definitions for the Project Architect, Code Analyzer, and Liaison Reporter agents.
@@ -81,5 +81,5 @@ Then open your browser at `http://localhost:8000`.
 -   `tools.py`: Specialized tools for repository traversal and file analysis.
 -   `gui/`: Frontend assets for the web interface.
 
-## 📄 License
+##  License
 Free For All. Fork & Share the code.
